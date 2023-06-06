@@ -30,6 +30,7 @@
 #           tags: praveensuggaa/deploy-test:latest
 
 # Service Container
+
 name: Redis Service Example
 on:
   push:
@@ -53,8 +54,8 @@ jobs:
       - name: Set up environment
         run: echo "Environment is set up"
 
-      - name: Install Redis client
-        run: sudo apt-get update && sudo apt-get install -y redis-tools
+      - name: Wait for Redis service
+        run: sleep 10 # Wait for the Redis service to start up
 
       - name: Connect to Redis service
-        run: redis-cli -h redis -p 6379 ping
+        run: redis-cli -h ${{ job.services.redis.ports['6379'] }}
