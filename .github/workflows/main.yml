@@ -27,7 +27,6 @@ jobs:
         with:
           context: .
           push: false
-          tags: 
           tags: praveensuggaa / deploy-test:latest
       # - name: Build Docker image
       #   run: docker build -t your-image-name:latest .
