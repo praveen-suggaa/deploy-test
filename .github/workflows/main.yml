@@ -33,4 +33,4 @@ jobs:
       #   run: docker build -t your-image-name:latest .
 
       # - name: Push Docker image
-      #   run: docker push your-image-name:latest
+      #   run: docker push your-image-name:atest
