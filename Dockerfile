@@ -9,8 +9,8 @@ COPY . .
 
 # Install any required dependencies
 RUN apt-get update && apt-get install -y \
-    <package1> \
-    <package2>
+    curl \
+    vim
 
 # Expose a port (optional)
 EXPOSE 8080
