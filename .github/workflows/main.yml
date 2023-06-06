@@ -29,9 +29,45 @@
 #           push: true
 #           tags: praveensuggaa/deploy-test:latest
 
-# Service Container
+# Service Container / Not Working
 
-name: Redis Service Example
+# name: Redis Service Example
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     services:
+#       redis:
+#         image: redis
+#         ports:
+#           - 6379:6379
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Set up environment
+#         run: echo "Environment is set up"
+
+#       - name: Install Redis client
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get install -y redis-tools
+
+#       - name: Wait for Redis service
+#         run: sleep 60
+
+#       - name: Connect to Redis service
+#         run: redis-cli -h ${{ job.services.redis.ports['6379'] }} ping
+
+# postgreSQL
+
+name: PostgreSQL Service Example
 on:
   push:
     branches:
@@ -42,10 +78,15 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      redis:
-        image: redis
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: mydb
         ports:
-          - 6379:6379
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout repository
@@ -54,13 +95,8 @@ jobs:
       - name: Set up environment
         run: echo "Environment is set up"
 
-      - name: Install Redis client
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y redis-tools
+      - name: Wait for PostgreSQL service
+        run: sleep 10
 
-      - name: Wait for Redis service
-        run: sleep 60
-
-      - name: Connect to Redis service
-        run: redis-cli -h ${{ job.services.redis.ports['6379'] }} ping
+      - name: Connect to PostgreSQL service
+        run: psql -h ${{ job.services.postgres.ports['5432'] }} -U postgres -d mydb -c "SELECT version();"
