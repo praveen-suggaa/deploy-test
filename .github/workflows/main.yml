@@ -65,7 +65,7 @@
 #       - name: Connect to Redis service
 #         run: redis-cli -h ${{ job.services.redis.ports['6379'] }} ping
 
-# postgreSQL
+#  postgreSQL
 
 name: PostgreSQL Service Example
 on:
