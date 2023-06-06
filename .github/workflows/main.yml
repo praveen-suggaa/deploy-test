@@ -30,7 +30,6 @@
 #           tags: praveensuggaa/deploy-test:latest
 
 # Service Container
-
 name: Redis Service Example
 on:
   push:
