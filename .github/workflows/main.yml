@@ -128,10 +128,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: react/testing
+        working-directory: React/testing
 
       - name: Build and test
         run: |
           npm run build
           npm test
-        working-directory: react/testing
+        working-directory: React/testing
