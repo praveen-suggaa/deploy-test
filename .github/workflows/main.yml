@@ -99,4 +99,4 @@ jobs:
         run: sleep 10
 
       - name: Connect to PostgreSQL service
-        run: psql -h ${{ job.services.postgres.ports['5432'] }} -U postgres -d mydb -c "SELECT version();"
+        run: psql -h ${{ job.services.postgres.ports[5432] }} -U postgres -d mydb -c "SELECT version();"
