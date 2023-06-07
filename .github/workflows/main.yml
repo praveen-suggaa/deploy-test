@@ -65,38 +65,69 @@
 #       - name: Connect to Redis service
 #         run: redis-cli -h ${{ job.services.redis.ports['6379'] }} ping
 
-#  postgreSQL
+#  postgreSQL / not working
 
-name: PostgreSQL Service Example
+# name: PostgreSQL Service Example
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     services:
+#       postgres:
+#         image: postgres
+#         env:
+#           POSTGRES_USER: postgres
+#           POSTGRES_PASSWORD: password
+#           POSTGRES_DB: mydb
+#         ports:
+#           - 5432:5432
+#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Set up environment
+#         run: echo "Environment is set up"
+
+#       - name: Wait for PostgreSQL service
+#         run: sleep 10
+
+#       - name: Connect to PostgreSQL service
+#         run: psql -h ${{ job.services.postgres.ports[5432] }} -U postgres -d mydb -c "SELECT version();"
+
+# testing app
+
+name: React Native Tests
+
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: mydb
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up environment
-        run: echo "Environment is set up"
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-      - name: Wait for PostgreSQL service
-        run: sleep 10
+      - name: Install dependencies
+        run: npm install
 
-      - name: Connect to PostgreSQL service
-        run: psql -h ${{ job.services.postgres.ports[5432] }} -U postgres -d mydb -c "SELECT version();"
+      - name: Build and test
+        run: npm run test
