@@ -103,7 +103,7 @@
 
 # testing app
 
-name: React Native Tests
+name: CI
 
 on:
   push:
@@ -114,11 +114,11 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Node.js
@@ -127,7 +127,7 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build and test
-        run: npm run test
+        run: npm run build && npm test
